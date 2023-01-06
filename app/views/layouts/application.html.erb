@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bells</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+ <header class="bg-gray-800" x-data="{ isOpen: false }">
+        <nav class="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
+            <div class="flex items-center justify-between">
+                <a class="text-xl font-bold text-white transition-colors duration-300 transform md:text-2xl hover:text-indigo-400"
+                    href="#">ICCD</a>
+
+                <!-- Mobile menu button -->
+                <div @click="isOpen = !isOpen" class="flex md:hidden">
+                    <button type="button" class="text-gray-200 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                        aria-label="toggle menu">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+                            <path fill-rule="evenodd"
+                                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+            <div :class="isOpen ? 'flex' : 'hidden'"
+                class="flex-col mt-2 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0">
+                <a class="text-sm font-medium text-gray-200 transition-colors duration-300 transform hover:text-indigo-400"
+                    href="#">Sign in</a>
+                <a class="text-sm font-medium text-gray-200 transition-colors duration-300 transform hover:text-indigo-400"
+                    href="#">Documents</a>
+                <a class="text-sm font-medium text-gray-200 transition-colors duration-300 transform hover:text-indigo-400"
+                    href="#">About</a>
+                <a class="px-4 py-1 text-sm font-medium text-center text-gray-200 transition-colors duration-300 transform border rounded hover:bg-indigo-400"
+                    href="#">Get In Touch</a>
+            </div>
+        </nav>
+
+        <section class="flex items-center justify-center" style="height: 500px;">
+            <div class="text-center">
+                <p class="text-xl font-medium tracking-wider text-gray-300">Polifonia Project</p>
+                <h2 class="mt-6 text-3xl font-bold text-white md:text-5xl">BELLS PILOT <br> </h2>
+                <p class="text-xl font-medium tracking-wider text-gray-300">Explore italian cultural soundscapes through the historical bells heritage</p>
+
+
+                <div class="flex justify-center mt-8">
+                    <a class="px-8 py-2 text-lg font-medium text-white transition-colors duration-300 transform bg-indigo-600 rounded hover:bg-indigo-500" 
+                        href="#" >Explore the map </a>
+                </div>
+            </div>
+        </section>
+    </header>
+
+      <%= yield %>
+  
+  </body>
+</html>
