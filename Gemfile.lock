@@ -107,12 +107,11 @@ GEM
     htmlentities (4.3.4)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
-    importmap-rails (1.1.5)
-      actionpack (>= 6.0.0)
-      railties (>= 6.0.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.1.1)
+      railties (>= 6.0.0)
     json-canonicalization (0.3.1)
     json-ld (3.2.3)
       htmlentities (~> 4.3)
@@ -380,13 +379,16 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
-  importmap-rails
   jbuilder
+  jsbundling-rails (~> 1.1)
   linkeddata (~> 3.2, >= 3.2.1)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  rdf (~> 3.2, >= 3.2.9)
   selenium-webdriver
+  sparql (~> 3.2, >= 3.2.4)
+  sparql-client (~> 3.2, >= 3.2.1)
   sprockets-rails
   stimulus-rails
   tailwindcss-rails

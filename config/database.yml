@@ -84,4 +84,3 @@ production:
   database: bells_production
   username: bells
   password: <%= ENV["BELLS_DATABASE_PASSWORD"] %>
-  url: <%= ENV['DATABASE_URL'] %>

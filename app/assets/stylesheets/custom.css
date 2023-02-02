@@ -1,0 +1,17 @@
+
+    .sparql {
+        background-color: #fcd881;
+        font-size: 0.8em;
+        text-align: left;
+        padding:1em;
+    }
+    .statement {
+/*        font-weight: bold;*/
+        color:darksalmon;
+        display: inline;
+    }
+    .question {
+         font-weight: bold;
+         padding: 1em 0px;
+    }
+

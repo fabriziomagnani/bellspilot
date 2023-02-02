@@ -8,11 +8,12 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
- <header class="bg-gray-800" x-data="{ isOpen: false }">
+  
+   <header class="bg-gray-800" x-data="{ isOpen: false }">
         <nav class="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
             <div class="flex items-center justify-between">
                 <a class="text-xl font-bold text-white transition-colors duration-300 transform md:text-2xl hover:text-indigo-400"
@@ -45,7 +46,7 @@
             </div>
         </nav>
 
-        <section class="flex items-center justify-center" style="height: 500px;">
+        <section id="jumbotron" class="flex items-center justify-center" style="height: 500px;">
             <div class="text-center">
                 <p class="text-xl font-medium tracking-wider text-gray-300">Polifonia Project</p>
                 <h2 class="mt-6 text-3xl font-bold text-white md:text-5xl">BELLS PILOT <br> </h2>
@@ -53,7 +54,7 @@
 
 
                 <div class="flex justify-center mt-8">
-                    <a class="px-8 py-2 text-lg font-medium text-white transition-colors duration-300 transform bg-indigo-600 rounded hover:bg-indigo-500" 
+                    <a id="explore" class="px-8 py-2 text-lg font-medium text-white transition-colors duration-300 transform bg-indigo-600 rounded hover:bg-indigo-500" 
                         href="#" >Explore the map </a>
                 </div>
             </div>
@@ -61,6 +62,45 @@
     </header>
 
       <%= yield %>
+
   
   </body>
 </html>
+
+
+<script>
+    const jumbotron = document.getElementById('jumbotron');
+    const box = document.getElementById('explore');
+    explore.addEventListener('click', () => {
+    fade(jumbotron);
+});
+
+    function fade(element) {
+    var op = 1;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            // element.style.display = 'none';
+            unfade(jumbotron);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+
+function unfade(element) {
+    var op = 0.1;  // initial opacity
+    // element.style.display = 'block';
+    var timer = setInterval(function () {
+        if (op >= 1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op += op * 0.1;
+    }, 50);
+}
+
+
+</script>

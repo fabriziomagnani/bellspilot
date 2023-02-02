@@ -16,7 +16,7 @@ gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
+# gem "importmap-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -57,10 +57,10 @@ gem "bootsnap", require: false
 # gem 'json-ld', '~> 3.2', '>= 3.2.3'
 # gem 'yaml-ld', '~> 0.0.2'
 
-# gem 'rdf', '~> 3.2', '>= 3.2.9'
+gem 'rdf', '~> 3.2', '>= 3.2.9'
 gem 'linkeddata', '~> 3.2', '>= 3.2.1'
-# gem 'sparql-client', '~> 3.2', '>= 3.2.1'
-# gem 'sparql', '~> 3.2', '>= 3.2.4'
+gem 'sparql-client', '~> 3.2', '>= 3.2.1'
+gem 'sparql', '~> 3.2', '>= 3.2.4'
 
 
 group :development, :test do
@@ -86,3 +86,5 @@ group :test do
   gem "webdrivers"
 end
 
+
+gem "jsbundling-rails", "~> 1.1"

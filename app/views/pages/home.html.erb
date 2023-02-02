@@ -1,4 +1,719 @@
-<div>
-  <h1 class="font-bold text-4xl">Pages#home</h1>
-  <p>Find me in app/views/pages/home.html.erb</p>
+
+<div id="root"></div>
+
+<%#= cultural_property.inspect %>
+ <div class="p-10">
+    <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+        
+        <div class="h-48 lg:h-auto bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql" >
+            <div class="question"> KEOMA CQ 4 - How many bells are there in a given church/bell tower? Chiesa Madonna della Neve - Bogliasco (GE)</div>
+            <p>
+                SELECT (COUNT(?c) AS ?cCount)</br>
+                WHERE {</br>
+        ?c a-cd:isLocatedIn &#60;https://w3id.org/arco/resource/ArchitecturalOrLandscapeHeritage/0700109690&#62; ;</br>
+        dc:subject ?o FILTER(str(?o)='campana')</br>
+      }</p>
+        </div>
+
+        <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+            <div class="mb-8">
+                <p class="text-sm text-gray-600 flex items-center">
+                    <div>  In Bogliasco bell tower there are <p class="statement" style="font-weight:bold;"><%=@statement_1[0].cCount%> </p>bells
+                    </div>  
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<!-- QUERY 2 -->
+
+ <div class="p-10">
+  <!--Card 1-->
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql" title="Mountain">
+    <div class="question">What type of bells are there in a given church/bell tower?</div>
+    <p>
+      SELECT DISTINCT ?b ?bDesc </br>
+      WHERE {</br>
+        ?b a-cd:isLocatedIn &#60;https://w3id.org/arco/resource/ArchitecturalOrLandscapeHeritage/0700109690&#62; ;</br>
+        dc:description ?bDesc ;</br>
+        dc:subject ?o FILTER(str(?o)='campana')</br>
+      }
+    </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+        These are the bells in this bell tower (Bogliasco): <br />
+        <p class="statement">
+            <% @statement_2.each do |statement| %>
+                <%= statement.bDesc%> <br />
+            <% end %>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- QUERY 3 -->
+
+ <div class="p-10">
+  <!--Card 1-->
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql" title="Mountain">
+     
+         <div class="question">How many bells are part of this bell concert?</div>
+    <p>
+    SELECT DISTINCT ?q ?d<br />
+      WHERE {<br />
+        &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0 &#62; arco:numberOfComponents ?q ;<br />
+        core:description ?d<br />
+      }
+    </p>
+    </div>
+
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center custom">
+
+        <% @statement_3.each do |statement| %>
+       <div> The set of bells is made up by <p class="statement"><%= statement.q%></p> bells: <br />
+          <p class="statement"><%= statement.d%></p>
+        </div>
+        <% end %>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- QUERY 4 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+      <div class="question">Where the set of bells is located (address, coordinates)?</div>
+     <p> PREFIX clv: &#60;https://w3id.org/italia/onto/CLV/&#62;<br />
+      PREFIX cis: &#60;http://dati.beniculturali.it/cis/&#62;<br />
+      SELECT DISTINCT ?cLabel ?fullAddress ?cLat ?cLong<br />
+      WHERE {<br />
+        &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; a-loc:hasCulturalPropertyAddress ?a ;<br />
+        clv:hasGeometry ?g .<br />
+        ?g a-loc:hasCoordinates ?coord .<br />
+        ?coord a-loc:lat ?cLat ;<br />
+        a-loc:lat ?cLong .<br />
+        ?c cis:siteAddress ?a ;<br />
+        rdfs:label ?cLabel .<br />
+        ?a clv:fullAddress ?fullAddress .<br />
+      }</p>
+          </div>
+
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center custom">
+
+        <% @statement_4.each do |statement| %>
+
+       <div> <p class="statement"><%= statement.cLabel%> </p> is located in <p class="statement"><%= statement.fullAddress%></p>. The coordinates are: <p class="statement"><%= statement.cLong%></p> , <p class="statement"><%= statement.cLat%></p>.
+        </div>
+        <% end %>
+                         <div class="w-full" id="map" x-show="open" style="height: 300px;"></div>
+
+        </p><br />
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 5 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">What bells make up a given set of bells?</div>
+     <p> 
+      SELECT ?b ?desc<br />
+      WHERE {<br />
+        ?b arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; core:description ?desc ;<br />
+        dc:subject?o filter(str(?o)='campana')<br />
+      }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+        These bells make up the set of bells in Bogliasco bell tower: <br />
+        <p class="statement">
+            <% @statement_5.each do |statement| %>
+                <%= statement.desc%> <br />
+            <% end %>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 6 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">6. What is the sound of each single bell part of a given set of bells?</div>
+     <p> 
+    SELECT ?b ?desc ?url<br />
+      WHERE {<br />
+        ?b arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; ;<br />
+        core:description ?desc ; <br />
+        dc:subject?o filter(str(?o)='campana') .<br />
+        ?doc a-cd:isDocumentationOf ?b ; <br />
+        &#60;https://w3id.org/italia/onto/SM/URL&#62; ?url ; <br />
+        rdf:type ?docType FILTER(?docType = a-cd:AudioDocumentation) .<br />
+      }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+        Listen to the bell sound: <br />
+        <p class="statement">
+            <% @statement_6.each do |statement| %>
+                <%= statement.desc%> <br />
+                <audio controls>
+                  <source src=<%= statement.url%> />
+                </audio><br />
+            <% end %>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 6 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">Ok, let's play with your loved set of bells. Be the bell ringer of your bell tower!</div>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div class="mb-8">
+
+
+
+  <div class="piano">
+    <div data-note="F" class="key white"></div>
+    <div data-note="Gb" class="key black"></div>
+    <div data-note="G" class="key white"></div>
+    <div data-note="Ab" class="key black"></div>
+    <div data-note="A" class="key white"></div>
+    <div data-note="Bb" class="key black"></div>
+    <div data-note="B" class="key white"></div>
+    <div data-note="C" class="key white"></div>
+    <div data-note="Db" class="key black"></div>
+    <div data-note="D" class="key white"></div>
+    <div data-note="Eb" class="key black"></div>
+    <div data-note="E" class="key white"></div>
+    <div data-note="F4" class="key white"></div>
+
+  </div>
+
+  <audio id="C" src=<%= @statement_6[2].url%>></audio>
+  <audio id="Db" src=<%= @statement_6[3].url%>></audio>
+  <audio id="D" src=""></audio>
+  <audio id="Eb" src=<%= @statement_6[4].url%>></audio>
+  <audio id="E" src=""></audio>
+  <audio id="F4" src=<%= @statement_6[5].url%>></audio>
+  <audio id="Gb" src=""%>></audio>
+  <audio id="G" src=""></audio>
+  <audio id="Ab" src=<%= @statement_6[0].url%>></audio>
+  <audio id="A" src=""></audio>
+  <audio id="Bb" src=<%= @statement_6[1].url%>></audio>
+  <audio id="B" src=""></audio>
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!-- QUERY 7 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">KEOMA CQ 11 - What is the weight of each single bell part of a given church/bell tower? Purpose of restoration, handling</div>
+     <p> 
+        PREFIX xsd: &#60;http://www.w3.org/2001/XMLSchema#&#62;<br />
+        SELECT ?b ?desc ?wVal<br />
+        WHERE {<br />
+        ?b a-cd:isLocatedIn &#60;https://w3id.org/arco/resource/ArchitecturalOrLandscapeHeritage/0700109690&#62; ;<br />
+        a-dd:hasMeasurementCollection ?mc ;<br />
+        dc:description ?desc ;<br />
+        dc:subject ?o FILTER(str(?o)='campana') .<br />
+        ?mc a-dd:hasMeasurement ?m  .<br />
+        ?m a-dd:hasMeasurementType ?mType FILTER(?mType = a-dd:Weight) .<br />
+        ?m a-dd:hasValue ?w .<br />
+        ?w &#60;https://w3id.org/italia/onto/MU/value&#62; ?wVal<br />
+        } ORDER BY DESC(xsd:integer(?wVal))
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+       <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+        <p class="statement">
+            <% @statement_7.each do |statement| %>
+                The <p class="statement"><%= statement.desc%> </p> weights <p class="statement"><%= statement.wVal%></p> kilos <br />
+            <% end %>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 8 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">8. What is the total weight of the bells within a given church/bell tower? (restoration purposes)</div>
+     <p>     
+        PREFIX xsd: &#60;http://www.w3.org/2001/XMLSchema#&#62;<br />
+        SELECT (SUM(xsd:integer(?wVal)) AS ?total)<br />
+        WHERE {<br />
+        ?b a-cd:isLocatedIn &#60;https://w3id.org/arco/resource/ArchitecturalOrLandscapeHeritage/0700109690&#62; ;<br />
+        a-dd:hasMeasurementCollection ?mc ;<br />
+        dc:description ?desc ;<br />
+        dc:subject ?o FILTER(str(?o)='campana') .<br />
+        ?mc a-dd:hasMeasurement ?m  .<br />
+        ?m a-dd:hasMeasurementType ?mType FILTER(?mType = a-dd:Weight) .<br />
+        ?m a-dd:hasValue ?w .<br />
+        ?w &#60;https://w3id.org/italia/onto/MU/value&#62; ?wVal<br />
+        }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+       <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+                        The total weight of this set of bells is:
+
+        <p class="statement">
+            <% @statement_8.each do |statement| %>
+                 <p class="statement"><%= statement.total%> </p> kilos <br />
+            <% end %>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 9 -->
+
+ <div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">KEOMA CQ 7-8 - When and  By whom (by which foundry) were they melted</div>
+     <p>          
+        SELECT DISTINCT ?desc ?n ?evType ?startEndEv<br />
+        WHERE {<br />
+        ?b  arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; ;<br />
+           core:description ?desc ;<br />
+           a-cd:hasDating ?cron ;<br />
+           a-cd:hasAuthor ?c ;<br />
+           dc:subject?o filter(str(?o)='campana') .<br />
+           ?c l0:name ?n .<br />
+           ?cron a-cd:hasDatingEvent ?dEv .<br />
+           ?dEv rdfs:label ?evType ;<br />
+                    a-cd:specificTime ?evDate .<br />
+           ?evDate rdfs:label ?startEndEv <br />
+           FILTER langMatches(lang(?evType), "it")<br />
+        }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+       <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+        <p class="statement">
+            <% @statement_9.each do |statement| %>
+                The <p class="statement"><%= statement.desc%> </p> was produced by <p class="statement"><%= statement.n%> </p> in <p class="statement"><%= statement.startEndEv%> 
+                <!-- statement.serialization.to_s.split(/[()]+/).last.split -->
+            </p> <br />
+            <% end %>
+              <div id="map2" class="rounded mb-2 mb-lg-0 mt-2 leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="height: 533px; position: relative;" tabindex="0"></div>
+        </p>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- QUERY 12 -->
+
+<div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">11. What documentation we have on the “a tastiera bell technique? </div>
+     <p>     
+        SELECT ?t ?a ?docURL ?pic<br />
+        WHERE {<br />
+        ?t rdf:type arco:DemoEthnoAnthropologicalHeritage ;<br />
+        a-loc:hasCulturalPropertyAddress ?l ;<br />
+        foaf:depiction ?pic ; <br />
+        dc:subject ?o FILTER regex(str(?o), "tastiera") .<br />
+        ?l rdfs:label ?a .<br />
+        ?doc a-cd:isDocumentationOf ?t ;<br />
+        &#60;https://w3id.org/italia/onto/SM/URL&#62; ?docURL .<br />
+        }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+       <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+           <div class="question">  We have audiovisual documentation about: </div>
+        <p class="statement">
+            
+            <% @statement_12.each do |statement| %>
+                <p class="statement"><%= statement.a%> <br />
+                    <%=link_to nil, statement.docURL.to_s  %>
+                </p>
+                <p class="statement">
+                    <%=image_tag (statement.pic.to_s), size: "180"  %>
+                </p> <br />
+            <% end %>
+    
+        </p>
+
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- QUERY 11 -->
+
+<div class="p-10">
+  <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
+    <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
+       <div class="question">12. What documentation we have on the “a cordette” bell technique? </div>
+     <p>     
+        SELECT ?t ?a ?docURL ?pic <br />
+        WHERE {<br />
+        ?t rdf:type arco:DemoEthnoAnthropologicalHeritage ;<br />
+        a-loc:hasCulturalPropertyAddress ?l ;
+        foaf:depiction ?pic ; <br />
+        dc:subject ?o FILTER regex(str(?o), "cordette") .<br />
+        ?l rdfs:label ?a .<br />
+        ?doc a-cd:isDocumentationOf ?t ;<br />
+        &#60;https://w3id.org/italia/onto/SM/URL&#62; ?docURL .<br />
+        }
+     </p>
+
+    </div>
+    <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+       <div class="mb-8">
+        <p class="text-sm text-gray-600 flex items-center">
+                   <div class="question"> We have only 1 documentation from </div>
+
+        <p class="statement">
+            <% @statement_11.each do |statement| %>
+                 <p class="statement"><%= statement.a%> <br />
+      
+                <%=link_to nil, statement.docURL.to_s  %>
+                <%=image_tag (statement.pic.to_s), size: "180"  %>
+                </p> 
+              </p>
+
+            <% end %>
+        </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script>
+// initialize the map on the "map" div with a given center and zoom
+var map = L.map('map', {
+    center: [44.383322, 9.069270],
+    minZoom: 5,
+    maxZoom: 18,
+    zoom: 10,
+        maxBounds: [
+        //south west
+        [43, 8],
+        //north east
+        [45, 10]
+        ]
+});
+
+// choose a map
+// https://leaflet-extras.github.io/leaflet-providers/preview/
+// https://www.thunderforest.com/tutorials/leaflet/
+// https://manage.thunderforest.com/dashboard
+// https://www.thunderforest.com/docs/apikeys/
+var Thunderforest_Pioneer = L.tileLayer('https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey={apikey}', {
+    attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    apikey: 'aafc356e67c14246b1d554abdc0096c4',
+    maxZoom: 22
+}).addTo(map)
+
+// var tileUrl = 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aafc356e67c14246b1d554abdc0096c4',
+//     layer = new L.TileLayer(tileUrl, {maxZoom: 18});
+
+
+
+var marker = L.marker([<%=@statement_4[0].cLat%>, <%=@statement_4[0].cLong %>]).addTo(map)
+ 
+
+
+function centerLeafletMapOnMarker(map, marker) {
+  var latLngs = [ marker.getLatLng() ];
+  var markerBounds = L.latLngBounds(latLngs);
+  map.fitBounds(markerBounds);
+}
+
+// var circle = L.circle([51.508, -0.11], {
+//     color: 'red',
+//     fillColor: '#f03',
+//     fillOpacity: 0.5,
+//     radius: 5000
+// }).addTo(map);
+
+</script>
+
+
+<script>
+const WHITE_KEYS = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+const BLACK_KEYS = ['s', 'd', 'g', 'h', 'j']
+
+const keys = document.querySelectorAll('.key')
+const whiteKeys = document.querySelectorAll('.key.white')
+const blackKeys = document.querySelectorAll('.key.black')
+
+keys.forEach(key => {
+  key.addEventListener('click', () => playNote(key))
+})
+
+document.addEventListener('keydown', e => {
+  if (e.repeat) return
+  const key = e.key
+  const whiteKeyIndex = WHITE_KEYS.indexOf(key)
+  const blackKeyIndex = BLACK_KEYS.indexOf(key)
+
+  if (whiteKeyIndex > -1) playNote(whiteKeys[whiteKeyIndex])
+  if (blackKeyIndex > -1) playNote(blackKeys[blackKeyIndex])
+})
+
+function playNote(key) {
+  const noteAudio = document.getElementById(key.dataset.note)
+  noteAudio.currentTime = 0
+  noteAudio.play()
+  // key.classList.add('active')
+  // noteAudio.addEventListener('ended', () => {
+  //   key.classList.remove('active')
+  // })
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
+               
+                 
+
+
+<script type="text/javascript">
+// center of map at the beginning
+var lng = 9.069270;
+var lat = 44.383322;
+
+
+
+// load of a layer for the map - can be changed
+// https://leaflet-extras.github.io/leaflet-providers/preview/
+var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+var map = L.map('map2', {
+    center: [lat, lng],
+    zoom: 8,
+    minZoom: 4,
+    maxZoom: 30,
+    layers: [OpenStreetMap_Mapnik],
+    fullscreenControl: true,
+    fadeAnimation: false,
+});
+
+// control if there is points in the context (list not empty) then populate the map using geojson document serialised in views.py - '|safe' seems mandatory here - the style is coming from the function style and onEachFeature allows interaction with the layer's features
+
+// test flow
+let colors = ['#b8b8b8', '#ffff00', '#ff9933', '#ff0000', '#d900ff'];
+var feature_FlowmapLayer = L.canvasFlowmapLayer({"features": [   {"geometry": {"coordinates": [49.0044, 2.517], "type": "Point"}, "properties": {"destination_city": "couze et saint front", "destination_country": "FR", "destination_dept": "FR24", "destination_id": 55, "destination_lat": 44.383322, "destination_lon": 9.069270, "distance": 1, "nb_ot": 131, "origin_city": "roissy en france", "origin_country": "FR", "origin_dept": "FR95", "origin_id": 7, "origin_lat": 44.427079, "origin_lon": 10.383329, "pc_from_geoloc": "95700", "pc_to_geoloc": "24150"}, "type": "Feature"}], "type": "FeatureCollection"}, {
+    nb_ot: 'nb_ot',
+    distance: 'distance',
+    originAndDestinationFieldIds: {
+    originUniqueIdField: 'origin_id',
+    originGeometry: {
+        x: 'origin_lon',
+        y: 'origin_lat'
+    },
+    destinationUniqueIdField: 'destination_id',
+    destinationGeometry: {
+        x: 'destination_lon',
+        y: 'destination_lat'
+    }
+    },
+    // some custom options
+    style: function(geoJsonFeature) {
+    // use leaflet's path styling options
+
+    // since the GeoJSON feature properties are modified by the layer,
+    // developers can rely on the "isOrigin" property to set different
+    // symbols for origin vs destination CircleMarker stylings
+
+        if (geoJsonFeature.properties.isOrigin) {
+            return {
+            renderer: feature_FlowmapLayer, // recommended to use your own L.canvas()
+            radius: 8,
+            weight: 1,
+            color: 'rgb(88, 95, 66)',
+            fillColor: 'rgba(195, 255, 62, 0.6)',
+            fillOpacity: 0.6
+            };
+        } else {
+            return {
+            renderer: feature_FlowmapLayer,
+            radius: 4,
+            weight: 0.5,
+            color: 'rgb(20, 60, 95)',
+            fillColor: 'rgb(17, 142, 170)',
+            fillOpacity: 0.7
+            };
+        }
+    },
+    canvasBezierStyle: {
+        type: 'classBreaks',
+        field: 'nb_ot',
+        classBreakInfos: [{
+            classMinValue: 0,
+            classMaxValue: 49,
+            symbol: {
+            strokeStyle: colors[0],
+            lineWidth: 2,
+            lineCap: 'round',
+            shadowColor: colors[0],
+            shadowBlur: 1.5
+            }
+        }, {
+            classMinValue: 50,
+            classMaxValue: 99,
+            symbol: {
+            strokeStyle: colors[1],
+            lineWidth: 2,
+            lineCap: 'round',
+            shadowColor: colors[1],
+            shadowBlur: 1.5
+            }
+        }, {
+            classMinValue: 100,
+            classMaxValue: 249,
+            symbol: {
+            strokeStyle: colors[2],
+            lineWidth: 2,
+            lineCap: 'round',
+            shadowColor: colors[2],
+            shadowBlur: 1.5
+            }
+        }, {
+            classMinValue: 250,
+            classMaxValue: 499,
+            symbol: {
+            strokeStyle: colors[3],
+            lineWidth: 2,
+            lineCap: 'round',
+            shadowColor: colors[3],
+            shadowBlur: 1.5
+            }
+        }],
+    // the layer will use the defaultSymbol if a data value doesn't fit
+    // in any of the defined classBreaks
+    defaultSymbol: {
+        strokeStyle: colors[4],
+        lineWidth: 2,
+        lineCap: 'round',
+        shadowColor: colors[4],
+        shadowBlur: 1.5
+        },
+    },
+    animatedCanvasBezierStyle: {
+        type: 'simple',
+        symbol: {
+        // use canvas styling options (compare to CircleMarker styling below)
+        strokeStyle: '#474747',
+        lineWidth: 1,
+        lineDashOffsetSize: 4, // custom property used with animation sprite sizes
+        lineCap: 'round',
+        shadowColor: '#474747',
+        shadowBlur: 2
+        }
+    },
+    pathDisplayMode: 'selection', // use 'selection' to only get selected nodes (need an eventlistener)
+    animationStarted: true,
+    animationEasingFamily: 'Linear',
+    animationEasingType: 'None',
+    animationDuration: 4000,
+}).addTo(map);
+
+feature_FlowmapLayer.on('click', function(e) {
+    if (e.sharedOriginFeatures.length) {
+    feature_FlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
+    }
+    if (e.sharedDestinationFeatures.length) {
+    feature_FlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
+    }
+});
+
+feature_FlowmapLayer.selectAllPathCountry('FR','FR');
+
+</script>
+
+
+
+
+
