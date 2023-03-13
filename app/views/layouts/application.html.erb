@@ -9,6 +9,20 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="">
+
+        <!-- Includi la libreria Leaflet JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+
+        <!-- load Esri Leaflet because we want to use an Esri basemap -->
+        <script src="https://unpkg.com/esri-leaflet@3.0.0/dist/esri-leaflet.js"></script>
+    <!-- Add additional js in static file -->
+    <script src="https://dvr6inke7wite.cloudfront.net/staticfiles/js/CanvasFlowmapLayer.js"></script>
+    <!-- load animation tweening lib requirement for CanvasFlowMapLayer -->
+    <script src="https://unpkg.com/@tweenjs/tween.js@18.5.0/dist/tween.umd.js"></script>
   </head>
 
   <body>
@@ -101,6 +115,5 @@ function unfade(element) {
         op += op * 0.1;
     }, 50);
 }
-
 
 </script>
