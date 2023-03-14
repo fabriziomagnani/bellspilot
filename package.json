@@ -3,8 +3,6 @@
   "private": "true",
   "dependencies": {
     "@hotwired/turbo-rails": "^7.2.4",
-    "esbuild": "^0.16.17",
-    "node": "^19.6.1",
     "stimulus": "^3.2.1"
   },
   "scripts": {

@@ -87,4 +87,4 @@ group :test do
 end
 
 
-gem "jsbundling-rails", "~> 1.1"
+# gem "jsbundling-rails", "~> 1.1"
