@@ -18,6 +18,7 @@ def home
     @statement_10 ||= []
     @statement_11 ||= []
     @statement_12 ||= []
+    @statement_13 ||= []
     @geo ||= []
 
 
@@ -39,7 +40,7 @@ def home
       "
 
     @query_to_run_2 = "
-      SELECT DISTINCT ?b ?bDesc 
+      SELECT DISTINCT ?b ?bDesc
       WHERE {
         ?b a-cd:isLocatedIn<https://w3id.org/arco/resource/ArchitecturalOrLandscapeHeritage/0700109690> ;
         dc:description ?bDesc ;
@@ -135,7 +136,7 @@ def home
         ?cron a-cd:hasDatingEvent ?dEv .
         ?dEv rdfs:label ?evType ;
         a-cd:specificTime ?evDate .
-        ?evDate rdfs:label ?startEndEv 
+        ?evDate rdfs:label ?startEndEv
         FILTER langMatches(lang(?evType), 'it')
       }
       "
@@ -179,6 +180,20 @@ def home
         <https://w3id.org/italia/onto/SM/URL> ?docURL .
       }
       "
+
+      @query_to_run_13 = "
+      PREFIX clv: <https://w3id.org/italia/onto/CLV/>
+      SELECT DISTINCT ?b ?bDesc ?cLat ?cLong
+      WHERE {
+        ?b rdf:type a-dd:MusicalInstrument;
+        dc:description ?bDesc ;
+        clv:hasGeometry ?g .
+        ?g a-loc:hasCoordinates ?coord .
+        ?coord a-loc:lat ?cLat ;
+        a-loc:long ?cLong .
+        ?b dc:subject ?o FILTER(str(?o)='campana')
+      } 
+        "
         # query_to_run_100 = "
         #   PREFIX arco-catalogue: <https://w3id.org/arco/ontology/catalogue/>
         #   PREFIX roapit: <https://w3id.org/italia/onto/RO/>
@@ -258,11 +273,19 @@ def home
                 @statement_12.push(statement)
           end
 
+          query13 = sparql.query(@query_to_run_13)
+          query13.each_solution do |statement|
+            hash = {
+              b: statement[:b].to_s,
+              bDesc: statement[:bDesc].to_s,
+              cLat: statement[:cLat].to_s,
+              cLong: statement[:cLong].to_s
+            }
+            @statement_13.push(hash)
+            # effettua l'escape dell'apostrofo
+            @statements_json = @statement_13.to_json.gsub("'", "\\\\'")
 
+          end
     # end
-
-
-
-
   end
 end

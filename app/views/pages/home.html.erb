@@ -3,8 +3,21 @@
 
 <%#= cultural_property.inspect %>
  <div class="p-10">
+    <!-- <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+  <TileLayer
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <Marker position={[51.505, -0.09]}>
+    <Popup>
+      A pretty CSS3 popup. <br /> Easily customizable.
+    </Popup>
+  </Marker>
+</MapContainer> -->
+
+
     <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
-        
+
         <div class="h-48 lg:h-auto bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql" >
             <div class="question"> KEOMA CQ 4 - How many bells are there in a given church/bell tower? Chiesa Madonna della Neve - Bogliasco (GE)</div>
             <p>
@@ -19,7 +32,7 @@
             <div class="mb-8">
                 <p class="text-sm text-gray-600 flex items-center">
                     <div>  In Bogliasco bell tower there are <p class="statement" style="font-weight:bold;"><%=@statement_1[0].cCount%> </p>bells
-                    </div>  
+                    </div>
                 </p>
             </div>
         </div>
@@ -65,7 +78,7 @@
   <!--Card 1-->
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql" title="Mountain">
-     
+
          <div class="question">How many bells are part of this bell concert?</div>
     <p>
     SELECT DISTINCT ?q ?d<br />
@@ -138,7 +151,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">What bells make up a given set of bells?</div>
-     <p> 
+     <p>
       SELECT ?b ?desc<br />
       WHERE {<br />
         ?b arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; core:description ?desc ;<br />
@@ -169,7 +182,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">6. What is the sound of each single bell part of a given set of bells?</div>
-     <p> 
+     <p>
     SELECT ?b ?desc ?url<br />
       WHERE {<br />
         ?b arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; ;<br />
@@ -258,7 +271,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">KEOMA CQ 11 - What is the weight of each single bell part of a given church/bell tower? Purpose of restoration, handling</div>
-     <p> 
+     <p>
         PREFIX xsd: &#60;http://www.w3.org/2001/XMLSchema#&#62;<br />
         SELECT ?b ?desc ?wVal<br />
         WHERE {<br />
@@ -295,7 +308,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">8. What is the total weight of the bells within a given church/bell tower? (restoration purposes)</div>
-     <p>     
+     <p>
         PREFIX xsd: &#60;http://www.w3.org/2001/XMLSchema#&#62;<br />
         SELECT (SUM(xsd:integer(?wVal)) AS ?total)<br />
         WHERE {<br />
@@ -334,7 +347,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">KEOMA CQ 7-8 - When and  By whom (by which foundry) were they melted</div>
-     <p>          
+     <p>
         SELECT DISTINCT ?desc ?n ?evType ?startEndEv<br />
         WHERE {<br />
         ?b  arco:isCulturalPropertyComponentOf &#60;https://w3id.org/arco/resource/MusicHeritage/0700377974-0&#62; ;<br />
@@ -357,7 +370,7 @@
         <p class="text-sm text-gray-600 flex items-center">
         <p class="statement">
             <% @statement_9.each do |statement| %>
-                The <p class="statement"><%= statement.desc%> </p> was produced by <p class="statement"><%= statement.n%> </p> in <p class="statement"><%= statement.startEndEv%> 
+                The <p class="statement"><%= statement.desc%> </p> was produced by <p class="statement"><%= statement.n%> </p> in <p class="statement"><%= statement.startEndEv%>
                 <!-- statement.serialization.to_s.split(/[()]+/).last.split -->
             </p> <br />
             <% end %>
@@ -375,7 +388,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">11. What documentation we have on the “a tastiera bell technique? </div>
-     <p>     
+     <p>
         SELECT ?t ?a ?docURL ?pic<br />
         WHERE {<br />
         ?t rdf:type arco:DemoEthnoAnthropologicalHeritage ;<br />
@@ -394,7 +407,7 @@
         <p class="text-sm text-gray-600 flex items-center">
            <div class="question">  We have audiovisual documentation about: </div>
         <p class="statement">
-            
+
             <% @statement_12.each do |statement| %>
                 <p class="statement"><%= statement.a%> <br />
                     <%=link_to nil, statement.docURL.to_s  %>
@@ -403,7 +416,7 @@
                     <%=image_tag (statement.pic.to_s), size: "180"  %>
                 </p> <br />
             <% end %>
-    
+
         </p>
 
         </p>
@@ -419,7 +432,7 @@
   <div class=" w-full lg:max-w-full lg:flex shadow-lg border-r border-b border-l border-gray-100 lg:border-l-0 lg:border-t lg:border-gray-100 ">
     <div class="h-48 lg:h-auto  bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden sparql">
        <div class="question">12. What documentation we have on the “a cordette” bell technique? </div>
-     <p>     
+     <p>
         SELECT ?t ?a ?docURL ?pic <br />
         WHERE {<br />
         ?t rdf:type arco:DemoEthnoAnthropologicalHeritage ;<br />
@@ -441,10 +454,10 @@
         <p class="statement">
             <% @statement_11.each do |statement| %>
                  <p class="statement"><%= statement.a%> <br />
-      
+
                 <%=link_to nil, statement.docURL.to_s  %>
                 <%=image_tag (statement.pic.to_s), size: "180"  %>
-                </p> 
+                </p>
               </p>
 
             <% end %>
@@ -453,6 +466,105 @@
   </div>
 </div>
 </div>
+
+
+<!-- QUERY 13 -->
+
+
+
+<script>
+  const jumbotron = document.getElementById('jumbotron');
+  const mapContainerDiv = document.getElementById('mapContainer');
+  const box = document.getElementById('explore');
+  var addedCoordinates = {};
+
+  function createMap() {
+    // Ottenieni il riferimento al contenitore della mappa
+    var container = document.getElementById('mapContainer');
+    // Imposta l'altezza del contenitore della mappa
+    container.style.height = '500px';
+
+    var mapContainer = L.map('mapContainer', {
+      center: [44.383322, 9.069270],
+      minZoom: 5,
+      maxZoom: 18,
+      zoom: 10,
+      maxBounds: [
+        //south west
+        [43, 8],
+        //north east
+        [45, 10]
+        ]
+      });
+
+
+      // var Thunderforest_Pioneer = L.tileLayer('https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey={apikey}', {
+      //   attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      //   apikey: 'aafc356e67c14246b1d554abdc0096c4',
+      //   maxZoom: 22
+      // }).addTo(mapContainer)
+
+      var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 22
+      }).addTo(mapContainer)
+
+      var customIcon = L.icon({
+        iconUrl: '<%= asset_path('polifonia-icon-bells.svg') %>', // Percorso all'immagine dell'icona
+        iconSize: [32, 32], // Dimensioni dell'icona [larghezza, altezza]
+        iconAnchor: [16, 32], // Punto di ancoraggio dell'icona [x, y]
+        popupAnchor: [0, -32], // Punto di ancoraggio del popup [x, y]
+        // Altre proprietà opzionali per personalizzare l'icona
+      });
+
+
+var statements = JSON.parse('<%= raw @statements_json %>');
+
+statements.forEach(function(statement) {
+  var lat = parseFloat(statement.cLat);
+  var lng = parseFloat(statement.cLong);
+
+  console.log("lat:", lat);
+  console.log("lng:", lng);
+
+  if (!isNaN(lat) && !isNaN(lng)) {
+    var coordinates = lat + "," + lng;
+
+    // Controllo se il marker con le stesse coordinate è già stato aggiunto
+    if (!addedCoordinates[coordinates]) {
+      // L.marker([lat, lng], { icon: customIcon }).addTo(mapContainer);
+      L.marker([lat, lng]).addTo(mapContainer);
+
+      // Aggiungi le coordinate all'oggetto per tenerne traccia
+      addedCoordinates[coordinates] = true;
+    }
+  }
+
+});
+
+    }
+
+
+      // PULSANTE EXPLORE
+      box.addEventListener('click', () => {
+        fade(jumbotron, mapContainerDiv);
+      });
+
+      function fade(jumbotron, map) {
+        jumbotron.style.transition = 'opacity 0.5s';
+        jumbotron.style.opacity = '0';
+
+        // Rimozione del jumbotron dopo l'animazione eunfade map
+        setTimeout(function() {
+          jumbotron.style.display = 'none';
+          createMap();
+          map.style.transition = 'opacity 0.5s';
+          map.style.opacity = '1';
+        }, 500);
+      }
+
+</script>
+
 
 
 <script>
@@ -487,7 +599,7 @@ var Thunderforest_Pioneer = L.tileLayer('https://{s}.tile.thunderforest.com/pion
 
 
 var marker = L.marker([<%=@statement_4[0].cLat%>, <%=@statement_4[0].cLong %>]).addTo(map)
- 
+
 
 
 function centerLeafletMapOnMarker(map, marker) {
@@ -552,9 +664,9 @@ function playNote(key) {
 
 
 
-                      
-               
-                 
+
+
+
 
 
 <script type="text/javascript">
@@ -712,8 +824,3 @@ feature_FlowmapLayer.on('click', function(e) {
 feature_FlowmapLayer.selectAllPathCountry('FR','FR');
 
 </script>
-
-
-
-
-
